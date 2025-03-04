@@ -10,6 +10,11 @@ const categorySchema: TCategory[] = [
 ];
 const productSchema = new Schema<TProduct>(
   {
+    id: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     name: {
       type: String,
       required: true,
