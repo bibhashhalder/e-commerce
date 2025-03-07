@@ -1,16 +1,95 @@
 import { Request, Response } from "express";
 import { ProductService } from "./product.service";
 
-const creaeProduct = async (req: Request, res: Response) => {
+const createProduct = async (req: Request, res: Response) => {
   const productData = req.body;
   const result = await ProductService.createProductIntoDB(productData);
-  res.status(200).json({
-    success: true,
-    message: "Product is created successfully",
-    data: result,
-  });
+  try {
+    res.status(200).json({
+      success: true,
+      message: "Product is created successfully",
+      data: result,
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: "Something went wrong",
+      error: err,
+    });
+  }
 };
-
+const getAllProduct = async (req: Request, res: Response) => {
+  try {
+    const result = await ProductService.getAllProductFromDB(req.query);
+    res.status(200).json({
+      success: true,
+      message: "Product faced successful",
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+      error: err,
+    });
+  }
+};
+const getSingleProduct = async (req: Request, res: Response) => {
+  const { productId } = req.params;
+  try {
+    const result = await ProductService.getSingleProductFromDB(productId);
+    res.status(200).json({
+      success: true,
+      message: "Product faced successful",
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+      error: err,
+    });
+  }
+};
+const updateProduct = async (req: Request, res: Response) => {
+  const { productId } = req.params;
+  const product = req.body;
+  try {
+    const result = await ProductService.updateProductFromDB(productId, product);
+    res.status(200).json({
+      success: true,
+      message: "Product update successful",
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+      error: err,
+    });
+  }
+};
+const deleteProduct = async (req: Request, res: Response) => {
+  const { productId } = req.params;
+  try {
+    const result = await ProductService.deleteProductIntoDb(productId);
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successful",
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+      error: err,
+    });
+  }
+};
 export const ProductController = {
-  creaeProduct,
+  createProduct,
+  getAllProduct,
+  getSingleProduct,
+  updateProduct,
+  deleteProduct,
 };
