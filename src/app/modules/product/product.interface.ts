@@ -6,7 +6,7 @@ export type TCategory =
   | "Automobiles"
   | "Groceries & Food";
 export type TProduct = {
-  id: string;
+  id?: string;
   name: string;
   category: TCategory;
   description: string;

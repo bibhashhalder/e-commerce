@@ -9,8 +9,8 @@ const getAllProductFromDB = async (payload: Record<string, unknown>) => {
   const result = await ProductModel.find(payload);
   return result;
 };
-const getSingleProductFromDB = async (_id: string) => {
-  const result = await ProductModel.findById({ _id });
+const getSingleProductFromDB = async (id: string) => {
+  const result = await ProductModel.findOne({ id });
   return result;
 };
 const updateProductFromDB = async (_id: string, payload: Partial<TProduct>) => {
