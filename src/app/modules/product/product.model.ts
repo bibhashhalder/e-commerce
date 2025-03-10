@@ -1,5 +1,10 @@
 import { model, Schema } from "mongoose";
-import { TCategory, TProduct } from "./product.interface";
+import {
+  TCategory,
+  TInventory,
+  TProduct,
+  TVariants,
+} from "./product.interface";
 const categorySchema: TCategory[] = [
   "Electronics",
   "Fashion",
@@ -8,6 +13,26 @@ const categorySchema: TCategory[] = [
   "Automobiles",
   "Groceries & Food",
 ];
+const variantSchema = new Schema<TVariants>({
+  type: {
+    type: String,
+    required: true,
+  },
+  value: {
+    type: String,
+    required: true,
+  },
+});
+const inventorySchema = new Schema<TInventory>({
+  quantity: {
+    type: Number,
+    required: true,
+  },
+  inStock: {
+    type: Boolean,
+    required: true,
+  },
+});
 const productSchema = new Schema<TProduct>(
   {
     id: {
@@ -28,20 +53,20 @@ const productSchema = new Schema<TProduct>(
       type: String,
       required: true,
     },
+    variants: {
+      type: [variantSchema],
+      required: true,
+    },
+    inventory: {
+      type: inventorySchema,
+      required: true,
+    },
     price: {
       type: Number,
       required: true,
     },
-    inStock: {
-      type: Boolean,
-      default: false,
-    },
     images: {
       type: String,
-    },
-    quantity: {
-      type: Number,
-      required: true,
     },
   },
   {

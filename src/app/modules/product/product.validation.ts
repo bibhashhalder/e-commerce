@@ -1,4 +1,12 @@
 import { z } from "zod";
+const variantValidationSchema = z.object({
+  type: z.string(),
+  value: z.string(),
+});
+export const inventoryValidationSchema = z.object({
+  quantity: z.number({ required_error: "Quantity is required" }).min(0),
+  inStock: z.boolean(),
+});
 const productValidationSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -12,9 +20,9 @@ const productValidationSchema = z.object({
   ]),
   description: z.string(),
   price: z.number(),
-  inStock: z.boolean(),
+  variants: z.array(variantValidationSchema),
+  inventory: inventoryValidationSchema,
   images: z.string(),
-  quantity: z.number(),
   createdAt: z.string().transform((val) => new Date(val)),
   updatedAt: z.string().transform((val) => new Date(val)),
 });
